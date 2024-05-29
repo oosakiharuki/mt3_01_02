@@ -407,10 +407,39 @@ void DrawGrid(const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportMa
 	}
 }
 
+//Vector3 Bezier(const Vector3& p0, const Vector3& p1, float t) {
+//
+//	Vector3 a = { t * p0.x ,t * p0.y,p0.z };
+//	Vector3 b = { (1.0f - t) * p1.x,(1.0f - t) * p1.y ,(1.0f - t) * p1.z };
+//	Vector3	c = { a.x + b.x,a.y + b.y,a.z + b.z };
+//
+//	return	c;
+//}		for (index = 0; index < link; index++) {
+//Vector2 a = { 100.0f,100.0f };
+//
+//float t0 = index / float(link);
+//float t1 = index / float(link);
+//
+//Vector2 bezier0 = Bezier(pw0, pw1, t0);
+//Vector2 bezier1 = Bezier(pw1, pw2, t1);
+//Vector2 p = Bezier(bezier0, bezier1, t0);
+//
+//if (index == 0) {
+//	Novice::DrawLine((int)pw0.x, (int)pw0.y, (int)a.x, (int)a.y, BLUE);
+//}
+//else {
+//	Novice::DrawLine((int)a.x, (int)a.y, (int)p.x, (int)p.y, BLUE);
+//}
+//a.x = p.x;
+//a.y = p.y;
+//
+//
+//}
+
 void DrawSphere(const Sphere& sphere, const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportMatrix, uint32_t color){
-	const uint32_t kSubdivision = 6;
-	const float kLonEvery = float(M_PI) / 2.0f;
-	const float kLatEvery = float(M_PI) / 2.0f;
+	const uint32_t kSubdivision = 30;
+	const float kLonEvery = float(M_PI) / 8.0f;
+	const float kLatEvery = float(M_PI) / 8.0f;
 	
 	float pi = float(M_PI);
 
@@ -450,7 +479,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char preKeys[256] = {0};
 
 	Vector3 cameraPosition = { 0.0f ,0.0f,-20.0f };
-	Vector3 cameraTranslate = { 0.0f,1.9f,-6.49f };
+	Vector3 cameraTranslate = { 0.0f,-1.0f,-6.49f };
 	Vector3 cameraRotate = { 0.26f,0.0f,0.0f };
 
 
