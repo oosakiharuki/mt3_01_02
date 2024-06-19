@@ -12,18 +12,6 @@
 
 const char kWindowTitle[] = "LC1B_03_オオサキ_ハルキ_タイトル";
 
-//struct Vector2 {
-//	float x;
-//	float y;
-//};
-//Vector2 Bezier(const Vector2& p0, const Vector2& p1, float t) {
-//
-//	Vector2 a = { t * p0.x ,t * p0.y };
-//	Vector2 b = { (1.0f - t) * p1.x,(1.0f - t) * p1.y };
-//	Vector2	c = { a.x + b.x,a.y + b.y };
-//
-//	return	c;
-//}
 
 struct Vector3 {
 	float x;
@@ -407,42 +395,16 @@ void DrawGrid(const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportMa
 	}
 }
 
-//Vector3 Bezier(const Vector3& p0, const Vector3& p1, float t) {
-//
-//	Vector3 a = { t * p0.x ,t * p0.y,p0.z };
-//	Vector3 b = { (1.0f - t) * p1.x,(1.0f - t) * p1.y ,(1.0f - t) * p1.z };
-//	Vector3	c = { a.x + b.x,a.y + b.y,a.z + b.z };
-//
-//	return	c;
-//}		for (index = 0; index < link; index++) {
-//Vector2 a = { 100.0f,100.0f };
-//
-//float t0 = index / float(link);
-//float t1 = index / float(link);
-//
-//Vector2 bezier0 = Bezier(pw0, pw1, t0);
-//Vector2 bezier1 = Bezier(pw1, pw2, t1);
-//Vector2 p = Bezier(bezier0, bezier1, t0);
-//
-//if (index == 0) {
-//	Novice::DrawLine((int)pw0.x, (int)pw0.y, (int)a.x, (int)a.y, BLUE);
-//}
-//else {
-//	Novice::DrawLine((int)a.x, (int)a.y, (int)p.x, (int)p.y, BLUE);
-//}
-//a.x = p.x;
-//a.y = p.y;
-//
-//
-//}
 
 void DrawSphere(const Sphere& sphere, const Matrix4x4& viewProjectionMatrix, const Matrix4x4& viewportMatrix, uint32_t color){
 	const uint32_t kSubdivision = 30;
-	const float kLonEvery = float(M_PI) / 16.0f;
-	const float kLatEvery = float(M_PI) / 16.0f;
+	const float kLonEvery = float(M_PI) / 8.0f;
+	const float kLatEvery = float(M_PI) / 8.0f;
 	
 	float pi = float(M_PI);
-
+	
+	Vector3 pointAB[kSubdivision] = {};
+	Vector3 pointAC[kSubdivision] = {};
 
 	for (uint32_t latIndex = 0; latIndex < kSubdivision; ++latIndex) {
 		float lat = -pi / 2.0f + kLatEvery * latIndex;//緯度 シ－タ
@@ -461,8 +423,13 @@ void DrawSphere(const Sphere& sphere, const Matrix4x4& viewProjectionMatrix, con
 			Vector3 cScreen = Transform(Transform(c, viewProjectionMatrix), viewportMatrix);
 
 
-			Novice::DrawLine((int)aScreen.x, (int)aScreen.y, (int)bScreen.x, (int)bScreen.y, color);
-			Novice::DrawLine((int)aScreen.x, (int)aScreen.y, (int)cScreen.x, (int)cScreen.y, color);
+			if (pointAB[latIndex].x != 0 && pointAB[lonIndex].x != 0) {
+				Novice::DrawLine((int)aScreen.x, (int)aScreen.y, (int)pointAB[latIndex].x, (int)pointAB[latIndex].y, color);
+				Novice::DrawLine((int)aScreen.x, (int)aScreen.y, (int)pointAC[lonIndex].x, (int)pointAC[lonIndex].y, color);
+			}
+
+			pointAB[latIndex] = aScreen;
+			pointAC[lonIndex] = aScreen;
 		}
 	}
 }
